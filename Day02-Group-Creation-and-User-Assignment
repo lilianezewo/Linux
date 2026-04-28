@@ -1,0 +1,27 @@
+  Question
+   The system admin team at xFusionCorp Industries has streamlined access management by implementing group-based access control. Here's what you need to do:
+a. Create a group named nautilus_sftp_users across all App servers within the Stratos Datacenter.
+b. Add the user rajesh into the nautilus_sftp_users group on all App servers. If the user doesn't exist, create it as well.
+Note: You can find the infrastructure details by clicking on the Details of all Users and Servers button on the top-right section of the page.
+
+         Solution
+1-Login into each app server
+   ssh user@host-ip
+2-Create the group
+   sudo groupadd nautilus_sftp_user
+*If the group already exists, this will return an error you can safely ignore.
+3-Ensure the user exist
+Check if the user rajesh exists:
+    id rajesh
+*If the user does not exist, create it:
+    sudo useradd rajesh
+4-Add user to group
+Add rajest to thr nautilus_sftp_user group
+    sudo usermod -aG nautilus_sftp_users rajesh
+5-Verify Membership
+Confirm that  is part of the group:
+    groups rajesh
+You should see  listed.
+6-Repeat across all apps servers
+Perform the same steps on each App server in the Stratos Datacenter.
+If you have Ansible or another automation tool available, you can streamline this by pushing the commands to all servers at once.

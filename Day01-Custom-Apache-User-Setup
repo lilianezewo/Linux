@@ -1,0 +1,34 @@
+ Question
+
+In response to heightened security concerns, the xFusionCorp Industries security team has opted for custom Apache users for their web applications. Each user is tailored specifically for an application, enhancing security measures. Your task is to create a custom Apache user according to the outlined specifications:
+- Create a user named kirsty on App server 3 within the Stratos Datacenter.
+- Assign a unique UID 1420 and designate the home directory as /var/www/kirsty.
+Note: You can find the infrastructure details by clicking on the Details of all Users and Servers button on the top-right section of the page.
+    
+    Solution
+ 1-Log into App Server3
+    ssh banner@stapp03
+ 2-Create the home directory
+ Ensure the directory exists before assigning it:
+    sudo mkdir -p /var/www/kirsty
+ 3-Create the user with custom UID and home directory
+Run the following command:
+    sudo useradd -u 1420 -d /var/www/kirsty -m kirsty
+Note:- -u 1420 → sets UID to 1420
+- -d /var/www/kirsty → sets home directory
+- -m → creates the home directory if it doesn’t exist
+ 4-Set a password for the user (if required by policy)
+    sudo passwd kirsty
+ 5-Validate the user creation
+ .Check UID and home directory:
+     id kirsty
+     getent passwd kirsty
+ .Confirm directory ownership:
+     ls -ld /var/www/kirsry
+ .If it’s not owned by , fix it with:
+     sudo chown -R kirsty:kirsty /var/www/kirsty
+ 6-Optional Cleanup
+If you want the user to have the usual shell startup files:
+      sudo cp /etc/skel/.bash* /var/www/kirsty/
+      sudo chown kirsty:kirsty /var/www/kirsty/.bash*
+
