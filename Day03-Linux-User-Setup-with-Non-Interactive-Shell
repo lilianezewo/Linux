@@ -1,0 +1,24 @@
+     Question
+To accommodate the backup agent tool's specifications, the system admin team at xFusionCorp Industries requires the creation of a user with a non-interactive shell. Here's your task:
+1-Create a user named mark with a non-interactive shell on App Server 3.
+Note: You can find the infrastructure details by clicking on the Details of all Users and Servers button on the top-right section of the page.
+
+   Solution
+
+1- Login into app server 3
+    ssh banner@stapp03
+2- Create the user with a non-interactive shell
+    sudo useradd -s /sbin/nologin mark
+Note:- -s /sbin/nologin → sets the shell to non-interactive (user cannot log in interactively).
+- mark → username.
+- Alternative: Some systems use /bin/false instead of /sbin/nologin. Both prevent interactive logins, but /sbin/nologin provides a clearer message.
+3- Set a password only if required by policy
+(Optional, since the shell is non-interactive):
+    sudo passwd mark
+4- Validate the user creation
+ .Check user entry:
+    getent passwd mark
+ .Expected output
+    mark:x:UID:GID::/home/mark:/sbin/nologin
+ .Confirm login shell
+    grep mark /etc/passwd 
