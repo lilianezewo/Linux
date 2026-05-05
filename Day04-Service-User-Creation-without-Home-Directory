@@ -1,0 +1,22 @@
+           Question
+In response to the latest tool implementation at xFusionCorp Industries, the system admins require the creation of a service user account. Here are the specifics:
+Create a user named james in App Server 3 without a home directory.
+Note: You can find the infrastructure details by clicking on the Details of all Users and Servers button on the top-right section of the page.
+
+           Solution
+1-Login App server 3
+   ssh banner@stapp03
+2-Create a new user without a home directory
+   sudo useradd --no-create-home james
+.  --no-create-home ensures no home directory is created.
+. By default, the shell will be /bin/bash unless specified otherwise.
+3-(Optional) Assign a non-interactive shell if required
+.If this service account should not allow logins:
+   sudo usermod -s /sbin/nologin james
+4-Validate the user creation
+.Check user details:
+   id james
+   getent passwd james
+.Confirm no home directory exists:
+   ls -ld /home/james
+This should return No such file or directory
