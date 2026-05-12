@@ -1,0 +1,23 @@
+       Question
+ Locate all files (excluding directories) owned by user john within the /home/usersdata directory on App Server 2. Copy these files while preserving the directory structure to the /beta directory.
+      Solution
+1- Login into app server 2
+    ssh steve@stapp02
+2-Locate all files owned by john (excluding directories)
+ Use find with -type f to restrict results to files only:
+    sudo find /home/usersdata -type f -user john
+.-type f → ensures only files are matched
+-.user john → restricts ownership to user john
+3-Copy files to /beta while preserving directory structure
+ Pipe the results into cp --parents:
+    sudo find /home/usersdata -type f -user john -exec cp --parents {} /beta \;
+.cp --parents → recreates the directory hierarchy relative to /home/usersdata
+.Destination /beta will contain the same structure as source
+4-Validate the copy
+  Check that files exist under /beta:
+    sudo find /beta -type f -user john
+  compare counts
+    sudo find /home/usersdata -type f -user john | wc -l
+    sudo find /beta -type f -user john | wc -l
+
+   
