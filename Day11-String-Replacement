@@ -1,0 +1,21 @@
+        Question
+At xFusionCorp Industries, the Stratos Datacenter houses a jump host server that stores template XML files essential for the Nautilus application. Prior to their use, these files need to be populated with valid data. As part of regular maintenance, the system administration team utilizes various string and file manipulation commands to prepare these templates.
+Your task is to substitute all occurrences of the string Sample with Marine within the XML file located at /root/nautilus.xml on the jump host server.
+
+         Solution
+1. Login into jump server
+    ssh thor@jump_host
+2. Backup the File
+    sudo cp /root/nautilus.xml /root/nautilus.xml.bak
+3. Perform the Substitution
+Use sed to replace all occurrences of Sample with Marine:
+    sudo sed -i 's/Sample/Marine/g' /root/nautilus.xml
+-i edits the file in place.
+s/Sample/Marine/g substitutes every occurrence globally.
+4. Verification
+    Alternative: View the file contents
+If you just want to confirm the substitution:
+   sudo grep Marine /root/nautilus.xml
+Or open the file directly:
+   sudo less /root/nautilus.xml
+
