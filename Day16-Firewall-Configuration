@@ -1,0 +1,25 @@
+         Question
+The Nautilus system administrators team has rolled out a web UI application for their backup utility on the Nautilus application server 1 within the Stratos Datacenter. This application runs on port 8086and appropriate firewall rules must be configured to allow incoming traffic. To achieve this, firewalld needs to be installed and configured on the application server. To ensure proper functionality, the following requirements have been identified:
+1-Install and enable the firewalld service.
+2-Allow all incoming connections on port 8086/tcp.
+3-Ensure the zone is set to public.
+
+          Solution
+1-Login into app server 1
+    ssh tony@stapp01
+ -Install firewalld service
+    sudo yum install firewalld -y
+ -Enable firewalld service
+    sudo systemctl enable firewalld
+    sudo sytemctl start firewalld
+    sudo systemctl status firewalld
+2-Allow all incoming connections
+    sudo firewall-cmd --zone=public --add-port=8086/tcp --permanent
+    sudo firewall-cmd --reload
+3-Ensure the zone is set to public
+    sudo firewall-cmd --set-default-zone=public
+    sudo firewall-cmd --get-default-zone   # Confirm it shows 'public'
+ -Validate the configuration
+    sudo firewall-cmd --zone=public --list-ports
+
+
