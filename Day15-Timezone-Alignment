@@ -1,0 +1,19 @@
+         Question
+In the daily standup, it was noted that the timezone settings across the Nautilus Application Servers in the Stratos Datacenter are inconsistent with the local datacenter's timezone, currently set to America/Argentina/San_Luis.
+1-Synchronize the timezone settings to match the local datacenter's timezone (America/Argentina/San_Luis).
+
+          Solution
+1-Login into each app server and tap the followin command
+   ssh user@hostip
+ -Verify Current Timezone
+ On each App server, check the current timezone:
+   timedatectl
+ -Set Timezone to America/Argentina/San_Luis
+ Run the following command on each App server:
+   sudo timedatectl set-timezone America/Argentina/San_Luis
+ -Confirm Change
+Verify the new timezone setting:
+  timedatectl
+ You should see:
+  Time zone: America/Argentina/San_Luis
+      Apply it on each app server
