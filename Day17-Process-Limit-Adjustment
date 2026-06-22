@@ -1,0 +1,40 @@
+        Question
+In the Stratos Datacenter, our application server 1 is encountering performance degradation due to excessive processes held by the nfsuser user. To mitigate this issue, we need to enforce limitations on its maximum processes. Please set the maximum process limits as specified below:
+a. Set the soft limit to 1027
+b. Set the hard limit to 2025
+
+          Solution
+ 1-Login into app server 1
+     ssh tony@stapp01
+ 2-Edit the limits configuration file
+     sudo vi /etc/security/limits.conf
+ Add these lines:
+  #@nfsuser   soft   nproc   1027
+  #@nfsuser   hard   nproc   2025
+ 3-Ensure PAM is enforcing limits
+ Confirm the following line  #session required pam_limits.so exists in both 
+     sudo vi /etc/pam.d/common-session 
+     sudo vi /etc/pam.d/common-session-noninteractive:
+ 4-Optional: Use a dedicated limits file
+ Instead of editing limits.conf directly, you can create:
+     sudo vi /etc/security/limits.d/nfsuser.conf
+ With the same entries:
+   nfsuser   soft   nproc   1027
+   nfsuser   hard   nproc   2025
+ 5-Validate the configuration
+ .Switch into the account using root privileges:
+      sudo -u nfsuser -i
+ .Check the limits:
+      ulimit -u
+  → Should show 1027 (soft limit).
+ Attempt to spawn processes beyond 2025 to confirm the hard cap.
+ 6-Systemd service override (if applicable)
+ If nfsuser runs services managed by systemd, you may need to enforce limits there:
+      sudo systemctl edit <service-name>
+ Add:
+  [Service]
+  LimitNPROC=2025
+ Then reload:
+     sudo systemctl daemon-reexec
+     sudo systemctl restart <service-name>
+
