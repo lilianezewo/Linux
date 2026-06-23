@@ -1,0 +1,30 @@
+          Question
+Following a security audit, the xFusionCorp Industries security team has opted to enhance application and server security with SELinux. To initiate testing, the following requirements have been established for App server 1 in the Stratos Datacenter:
+1-Install the required SELinux packages.
+2-Permanently disable SELinux for the time being; it will be re-enabled after necessary configuration changes.
+3-No need to reboot the server, as a scheduled maintenance reboot is already planned for tonight.
+4-Disregard the current status of SELinux via the command line; the final status after the reboot should be disabled.
+
+             Solution
+1-Login into app server 1
+   ssh tony@stapp01
+ -Install SELinux Packages
+ On RHEL/CentOS/Fedora-based systems:
+   sudo yum install -y selinux-policy selinux-policy-targeted policycoreutils policycoreutils-python-utils libselinux-utils
+ On Debian/Ubuntu-based systems:
+   sudo apt update
+   sudo apt install -y selinux-basics selinux-policy-default auditd
+2-Permanently Disable SELinux
+ Edit the configuration file:
+    sudo vi /etc/selinux/config
+ Set the following values:
+    SELINUX=disabled
+    SELINUXTYPE=targeted
+ save and exitr
+3-Confirm Configuration
+ Check the file contents:
+    grep SELINUX /etc/selinux/config
+ Expected output:
+   SELINUX=disabled
+   SELINUXTYPE=targeted
+4-
